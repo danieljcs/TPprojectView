@@ -1,0 +1,129 @@
+<ng-template #CrearDoc let-modal >
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Crear - Editar</h5>
+        <button type="button" class="close"  data-dismiss="modal" aria-label="Close">
+          <span (click)="cerrarModal(CrearDoc)" aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="formDocumentation" >
+          <div class="modal-body">
+            <div class="form-body">
+              <div class="row form-group">
+                <div class=" col-md-6">
+                  <label class="control-label">Tipo Identificacion</label>
+                  <select required class="form-control" name="IdType" formControlName="IdentificationTypeId" id="">
+                    <option *ngFor="let type of list_id_type"
+                        [ngValue]="type.id">
+                        {{type.name}}
+                    </option>
+                  </select>
+                </div>
+                <div class=" col-md-6">
+                  <label class="control-label"># Identificacion</label>
+                  <input required type="number" name="Identificacion" disabled value="{{nit_form}}" class="form-control" formControlName="IdentificationNumber"/>
+                </div>
+                <div class=" col-md-6">
+                  <label class="control-label">Nombre de la razon social</label>
+                  <input type="text" (keypress)="permite($event, 'car')"
+                   [required]="formDocumentation.get('IdentificationTypeId').value !=1" name="company_name" class="form-control" value="" formControlName="CompanyName"/>
+                   <div class="alert-danger" *ngIf="formDocumentation.get('CompanyName').invalid" ><div class="container-error-message">Campo Requerido</div></div>
+                </div>
+                <div class=" col-md-6">
+                  <label class="control-label">Primer Nombre</label>
+                  <input type="text" (keypress)="permite($event, 'car')"
+                   [required]="formDocumentation.get('IdentificationTypeId').value ==1" name="FirstName" class="form-control" value="" formControlName="FirstName"/>
+                   <div class="alert-danger" *ngIf="formDocumentation.get('FirstName').invalid" ><div class="container-error-message">Campo Requerido</div></div>
+                </div>
+                <div class=" col-md-6">
+                  <label class="control-label">Segundo Nombre</label>
+                  <input type="text" (keypress)="permite($event, 'car')"
+                   [required]="formDocumentation.get('IdentificationTypeId').value ==1" name="SecondName" class="form-control" value="" formControlName="SecondName"/>
+                   <div class="alert-danger" *ngIf="formDocumentation.get('SecondName').invalid" ><div class="container-error-message">Campo Requerido</div></div>
+                </div>
+                <div class=" col-md-6">
+                  <label class="control-label">Primer Apellido</label>
+                  <input type="text" (keypress)="permite($event, 'car')"
+                   [required]="formDocumentation.get('IdentificationTypeId').value ==1" name="FirstLastName" class="form-control" value="" formControlName="FirstLastName"/>
+                   <div class="alert-danger" *ngIf="formDocumentation.get('FirstLastName').invalid" ><div class="container-error-message">Campo Requerido</div></div>
+                </div>
+                <div class=" col-md-6">
+                  <label class="control-label">Segundo Apellido</label>
+                  <input type="text" (keypress)="permite($event, 'car')"
+                   [required]="formDocumentation.get('IdentificationTypeId').value ==1" name="SecondLastName" class="form-control" value="" formControlName="SecondLastName"/>
+                   <div class="alert-danger" *ngIf="formDocumentation.get('SecondLastName').invalid" ><div class="container-error-message">Campo Requerido</div></div>
+                </div>
+                <div class=" col-md-6">
+                  <label class="control-label">Email</label>
+                  <input name="Email" class="form-control" value=""
+                  [ngClass]="{'input-error': formDocumentation.controls.Email.isValid}" formControlName="Email" required/>
+                  <div class=" alert-danger">
+                    <div id="validationServer03Feedback" class="container-error-message"
+                          *ngIf="formDocumentation.get('Email').invalid &&
+                          (formDocumentation.get('Email').dirty ||
+                          (formDocumentation).get('Email').touched)">
+                              El email es requerido.
+                    </div>
+                  </div>
+                </div>
+                <div class=" col-md-12">
+                  <input type="checkbox" class="form-check-input" formControlName="CheckMessagesCell" id="CheckMessagesCell">
+                  <label class="form-check-label" for="CheckMessagesCell">Acepto envio de mensajes por celular</label><br>
+                  <input type="checkbox" class="form-check-input" formControlName="CheckMessagesEmail" id="CheckMessagesEmail">
+                  <label class="form-check-label" for="CheckMessagesEmail">Acepto envio de mensajes por correo</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="cerrarModal(CrearDoc)" data-dismiss="modal">Cancelar</button>
+            <button   type="submit" id="button_save" (click)="createModifyDoc()" [disabled]="formDocumentation.invalid"  class="btn btn-success"><i class="fa fa-save"></i>
+              Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+</ng-template>
+
+
+<ng-template #ConsultaDoc let-modal >
+
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLongTitle">No Encontrado</h5>
+      <button type="button" class="close"  data-dismiss="modal" aria-label="Close">
+        <span (click)="cerrarModal(ConsultaDoc)" aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <label>Registro no encontrado Desea Crear uno nuevo?</label>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="cerrarModal(ConsultaDoc)" data-dismiss="modal">Cancelar</button>
+      <button   type="button" id="button_save" (click)="abrirModal(CrearDoc,'lg')" #button class="btn btn-primary">
+        Crear</button>
+    </div>
+  </div>
+</ng-template>
+
+
+<div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLongTitle">Inscripcion al servicio:</h5>
+    </div>
+    <div class="modal-body">
+      <div class="form-group col-md-12">
+        <p>Ingrese el NIT de la persona natural o juridica para la que se realizara el tramite sin incluir el digito de verificacion, Luego seleccione Contunuar para completar la solicitud.
+        </p>
+        <label class="control-label">NIT-ID:</label>
+        <input  required [(ngModel)]="nit_form" type="number" class="form-control"  />
+        <button type="button" class="btn btn-primary" [disabled]="!nit_form"  (click)="searchNIT(nit_form)">Consultar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
